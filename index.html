@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ashwaq</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #ffcccc;
+            color: #d10000;
+            text-align: center;
+            padding: 50px;
+            overflow: hidden;
+        }
+        h1 {
+            font-size: 3em;
+            margin-bottom: 20px;
+        }
+        p {
+            font-size: 1.5em;
+            margin-bottom: 30px;
+        }
+        .button {
+            padding: 10px 20px;
+            font-size: 1em;
+            background-color: #ff9999;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: font-size 0.3s;
+        }
+        .button:hover {
+            background-color: #ff6666;
+        }
+        .yes-button {
+            font-size: 1em;
+        }
+        .confetti {
+            position: absolute;
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 1.5s, transform 1.5s;
+        }
+    </style>
+</head>
+<body>
+
+<h1>Will You Be My Valentine, Ashwaq?</h1>
+<p>Because I can't imagine a day without your smiles!</p>
+<button class="button yes-button" id="yesButton" onclick="handleYes()">Yes!</button>
+<button class="button" id="noButton" onclick="handleNo()">No, thanks!</button>
+
+<audio id="confettiSound" src="your-sound-file.mp3" preload="auto"></audio>
+
+<script>
+    let yesSize = 1;
+    let noResponses = [
+        "Are you sure? 😢",
+        "That's okay! More chocolate for me! 🍫",
+        "Don't leave me hanging! 😭",
+        "You must be kidding! 😂"
+    ];
+    let noIndex = 0;
+
+    function handleYes() {
+        playSound();
+        createConfetti();
+        alert('Yay! You made my day, Ashwaq! 💖');
+    }
+
+    function handleNo() {
+        yesSize *= 2;
+        document.getElementById('yesButton').style.fontSize = yesSize + 'em';
+        
+        if (noIndex < noResponses.length) {
+            document.getElementById('noButton').textContent = noResponses[noIndex];
+            noIndex++;
+        } else {
+            document.getElementById('noButton').textContent = "Really? 😅";
+        }
+    }
+
+    function playSound() {
+        const sound = document.getElementById('confettiSound');
+        sound.currentTime = 0;
+        sound.play();
+    }
+
+    function createConfetti() {
+        const colors = ['#FF0B0B', '#00FF00', '#00BFFF', '#FFD700', '#FF69B4'];
+        
+        for (let i = 0; i < 150; i++) {
+            const confetti = document.createElement('div');
+            confetti.classList.add('confetti');
+            const size = Math.random() * 10 + 5;
+            confetti.style.width = `${size}px`;
+            confetti.style.height = `${size}px`;
+            confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+            confetti.style.position = 'absolute';
+            confetti.style.left = Math.random() * window.innerWidth + 'px';
+            confetti.style.top = Math.random() * window.innerHeight + 'px';
+            confetti.style.opacity = 1;
+
+            document.body.appendChild(confetti);
+
+            setTimeout(() => {
+                const translateY = Math.random() * 500 + 300;
+                const rotate = Math.random() * 720;
+                const duration = Math.random() * 2 + 1.5;
+
+                confetti.style.transform = `translateY(${translateY}px) rotate(${rotate}deg)`;
+                confetti.style.opacity = 0;
+                confetti.style.transitionDuration = `${duration}s`;
+            }, 10);
+
+            setTimeout(() => {
+                confetti.remove();
+            }, 3500);
+        }
+    }
+</script>
+
+</body>
+</html>
